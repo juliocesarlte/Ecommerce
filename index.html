@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DecoraJLP | Design e Conforto</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #00468C;
+            --secondary-blue: #2866B0;
+            --accent-red: #D32F2F;
+            --bg-light: #F4F7FA;
+            --text-main: #333333;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--white);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: -1px;
+        }
+
+        .logo i {
+            color: var(--accent-red);
+            font-size: 1.4rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-menu li a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 500;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-menu li a:hover {
+            color: var(--primary-blue);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-blue);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        .cart-widget {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent-red);
+            color: white;
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        main {
+            flex: 1;
+            max-width: 1200px;
+            margin: 2rem auto;
+            width: 100%;
+            padding: 0 1rem;
+        }
+
+        .page-view {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .page-view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0, 70, 140, 0.8), rgba(0, 70, 140, 0.6)), url('https://images.unsplash.com/photo-1616486338812-3dadae4b4f9d?q=80&w=1200&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .feature-box {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .price-tag {
+            color: var(--primary-blue);
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .badge-destaque {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent-red);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .product-detail-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        .detail-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            background: white;
+        }
+
+        .checkout-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .form-box {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .payment-opt {
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .payment-opt.selected {
+            border-color: var(--primary-blue);
+            background: #eef4fb;
+        }
+
+        .auth-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            background: var(--primary-blue);
+            color: white;
+            padding: 3rem 1rem 1rem 1rem;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-col h3 {
+            border-bottom: 2px solid var(--accent-red);
+            display: inline-block;
+            padding-bottom: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-col p,
+        .footer-col a {
+            color: #e0e0e0;
+            line-height: 1.6;
+            display: block;
+            text-decoration: none;
+        }
+
+        .footer-col i {
+            margin-right: 8px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .product-detail-container,
+            .checkout-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo" onclick="app.navTo('home')">
+                <i class="fas fa-chair"></i> DecoraJLP
+            </div>
+            <ul class="nav-menu">
+                <li><a onclick="app.navTo('home')">Início</a></li>
+                <li><a onclick="app.navTo('catalog')">Catálogo</a></li>
+                <li><a onclick="app.navTo('contact')">Contato</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div id="user-area"><button class="btn btn-primary" onclick="app.navTo('login')">Entrar</button></div>
+                <div class="cart-widget" onclick="app.navTo('cart')">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-badge" class="badge">0</span>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section id="home" class="page-view active">
+            <div class="hero">
+                <h1>Design Exclusivo para seu Lar</h1>
+                <p>Transforme ambientes com a elegância que só a DecoraJLP oferece.</p>
+                <button class="btn btn-outline" style="color: white; border-color: white; margin-top: 1rem;" onclick="app.navTo('catalog')">Ver Coleção Completa</button>
+            </div>
+            <div class="features-grid">
+                <div class="feature-box"><i class="fas fa-truck fa-2x"></i>
+                    <h3>Entrega Segura</h3>
+                </div>
+                <div class="feature-box"><i class="fas fa-medal fa-2x"></i>
+                    <h3>Qualidade Premium</h3>
+                </div>
+                <div class="feature-box"><i class="fas fa-credit-card fa-2x"></i>
+                    <h3>12x Sem Juros</h3>
+                </div>
+            </div>
+            <h2 style="text-align: center; margin-bottom: 1.5rem; color: var(--primary-blue);">Destaques DecoraJLP</h2>
+            <div id="featured-grid" class="products-grid"></div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn btn-outline" onclick="app.navTo('catalog')">Ver Todos os Produtos</button>
+            </div>
+        </section>
+        <section id="catalog" class="page-view">
+            <h2 style="margin-bottom: 1rem;">Catálogo Completo</h2>
+            <div id="catalog-grid" class="products-grid"></div>
+        </section>
+        <section id="product-detail" class="page-view">
+            <button class="btn btn-outline" onclick="app.navTo('catalog')" style="margin-bottom: 1rem;">← Voltar</button>
+            <div id="detail-content" class="product-detail-container"></div>
+        </section>
+        <section id="cart" class="page-view">
+            <h2>Seu Carrinho</h2>
+            <div id="cart-list" style="margin: 1rem 0;"></div>
+            <div style="text-align: right; font-size: 1.5rem; font-weight: bold;">Total: <span id="cart-total">R$ 0,00</span></div>
+            <div style="text-align: right; margin-top: 1rem;"><button class="btn btn-primary" onclick="app.checkCheckout()">Ir para Pagamento</button></div>
+        </section>
+        <section id="checkout" class="page-view">
+            <h2>Finalizar Pedido</h2>
+            <div class="checkout-layout">
+                <div class="form-box">
+                    <h3>Endereço & Frete</h3>
+                    <div class="form-group">
+                        <label>Estado de Entrega</label>
+                        <select id="freight-state" onchange="app.calcFreight()">
+                            <option value="">Selecione...</option>
+                            <option value="SP">São Paulo (Grátis)</option>
+                            <option value="RJ">Rio de Janeiro (R$ 49,90)</option>
+                            <option value="OUTROS">Outros Estados (R$ 119,90)</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>CEP</label><input type="text" placeholder="00000-000"></div>
+                    <div class="form-group"><label>Rua</label><input type="text"></div>
+                    <p>Frete: <strong id="freight-value">R$ 0,00</strong></p>
+                </div>
+                <div class="form-box">
+                    <h3>Pagamento</h3>
+                    <div class="payment-opt" onclick="this.classList.toggle('selected')"><i class="fas fa-barcode"></i> Boleto</div>
+                    <div class="payment-opt" onclick="this.classList.toggle('selected')"><i class="fas fa-credit-card"></i> Cartão</div>
+                    <div class="payment-opt" onclick="this.classList.toggle('selected')"><i class="brands fa-pix"></i> PIX</div>
+                    <div style="margin-top: 1rem; border-top: 1px solid #ddd; padding-top: 1rem;">
+                        <h3>Total Final: <span id="final-total">R$ 0,00</span></h3>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="app.finishOrder()">Confirmar Compra</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="login" class="page-view">
+            <div class="auth-container">
+                <h2 style="text-align: center; margin-bottom: 1rem;">Acesso do Cliente</h2>
+                <div class="form-group"><label>E-mail</label><input type="email" id="login-email"></div>
+                <div class="form-group"><label>Senha</label><input type="password"></div>
+                <button class="btn btn-primary" style="width: 100%;" onclick="app.login()">Entrar</button>
+            </div>
+        </section>
+        <section id="contact" class="page-view">
+            <div class="auth-container" style="max-width: 600px;">
+                <h2>Fale Conosco</h2>
+                <div class="form-group"><label>Nome</label><input type="text"></div>
+                <div class="form-group"><label>Mensagem</label><input type="text" style="height: 100px;"></div>
+                <button class="btn btn-primary">Enviar</button>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <div class="logo" style="color: white; margin-bottom: 1rem;">
+                    <i class="fas fa-chair" style="color: var(--accent-red);"></i> DecoraJLP
+                </div>
+                <p>Sua casa merece o melhor do design com o conforto que você precisa. DecoraJLP, transformando ambientes.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Contato</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Av. Paulista, 1234 - São Paulo/SP</p>
+                <p><i class="fas fa-phone"></i> (11) 1223-4567</p>
+                <p><i class="fas fa-envelope"></i> sac@decorajlp.com</p>
+            </div>
+            <div class="footer-col">
+                <h3>Institucional</h3>
+                <a onclick="app.navTo('home')">Início</a>
+                <a onclick="app.navTo('catalog')">Catálogo</a>
+                <a onclick="app.navTo('contact')">Fale Conosco</a>
+                <a href="#">Política de Privacidade</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 DecoraJLP Comércio de Móveis Ltda. Todos os direitos reservados.</p>
+            <p>CNPJ: 45.123.678/0001-99</p>
+        </div>
+    </footer>
+    <script>
+        const db = {
+            products: [{
+                    id: 1,
+                    name: "Sofá Azul Moderno",
+                    price: 2499.90,
+                    img: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&auto=format&fit=crop",
+                    desc: "Sofá de 3 lugares com tecido azul e pés de madeira."
+                },
+                {
+                    id: 2,
+                    name: "Mesa de Jantar Redonda",
+                    price: 1199.90,
+                    img: "https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?w=600&auto=format&fit=crop",
+                    desc: "Mesa de jantar compacta, perfeita para apartamentos."
+                },
+                {
+                    id: 4,
+                    name: "Luminária Pendente",
+                    price: 179.90,
+                    img: "https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?w=600&auto=format&fit=crop",
+                    desc: "Luminária de teto estilo industrial dourada."
+                },
+                {
+                    id: 5,
+                    name: "Poltrona Amarela",
+                    price: 889.90,
+                    img: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&auto=format&fit=crop",
+                    desc: "Poltrona de leitura confortável e vibrante."
+                },
+                {
+                    id: 6,
+                    name: "Aparador de Madeira",
+                    price: 599.90,
+                    img: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=600&auto=format&fit=crop",
+                    desc: "Móvel de armazenamento em madeira clara e branco."
+                }
+            ],
+            cart: [],
+            user: null
+        };
+        const app = {
+            init: function() {
+                this.renderFeatured();
+                this.renderCatalog();
+            },
+            navTo: function(pageId) {
+                document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+                document.getElementById(pageId).classList.add('active');
+                window.scrollTo(0, 0);
+            },
+            renderFeatured: function() {
+                const grid = document.getElementById('featured-grid');
+                const featured = [db.products[0], db.products[3], db.products[1]];
+                grid.innerHTML = featured.map(p => `
+                    <div class="product-card" onclick="app.viewProduct(${p.id})">
+                        <span class="badge-destaque">Destaque</span>
+                        <img src="${p.img}" class="card-img" alt="${p.name}">
+                        <div class="card-body">
+                            <h3>${p.name}</h3>
+                            <div class="price-tag">R$ ${p.price.toFixed(2).replace('.', ',')}</div>
+                            <button class="btn btn-primary" onclick="event.stopPropagation(); app.addToCart(${p.id})">Adicionar</button>
+                        </div>
+                    </div>
+                `).join('');
+            },
+            renderCatalog: function() {
+                const grid = document.getElementById('catalog-grid');
+                grid.innerHTML = db.products.map(p => `
+                    <div class="product-card" onclick="app.viewProduct(${p.id})">
+                        <img src="${p.img}" class="card-img" alt="${p.name}">
+                        <div class="card-body">
+                            <h3>${p.name}</h3>
+                            <div class="price-tag">R$ ${p.price.toFixed(2).replace('.', ',')}</div>
+                            <button class="btn btn-primary" onclick="event.stopPropagation(); app.addToCart(${p.id})">Adicionar</button>
+                        </div>
+                    </div>
+                `).join('');
+            },
+            viewProduct: function(id) {
+                const p = db.products.find(item => item.id === id);
+                document.getElementById('detail-content').innerHTML = `
+                    <img src="${p.img}" class="detail-img">
+                    <div>
+                        <h2 style="font-size: 2rem; color: var(--primary-blue)">${p.name}</h2>
+                        <p style="margin: 1rem 0; font-size: 1.1rem;">${p.desc}</p>
+                        <h3 style="font-size: 2.5rem; margin-bottom: 2rem;">R$ ${p.price.toFixed(2).replace('.', ',')}</h3>
+                        <button class="btn btn-primary" style="width: 100%; padding: 1rem;" onclick="app.addToCart(${p.id})">Adicionar ao Carrinho</button>
+                        <hr style="margin: 2rem 0; border: 0; border-top: 1px solid #eee;">
+                        <p><i class="fas fa-check-circle" style="color: green"></i> Disponível</p>
+                    </div>
+                `;
+                this.navTo('product-detail');
+            },
+            addToCart: function(id) {
+                db.cart.push(db.products.find(i => i.id === id));
+                document.getElementById('cart-badge').innerText = db.cart.length;
+                this.renderCart();
+                alert('Adicionado!');
+            },
+            renderCart: function() {
+                const list = document.getElementById('cart-list');
+                let total = 0;
+                if (db.cart.length === 0) list.innerHTML = '<p style="text-align:center;">Vazio.</p>';
+                else {
+                    list.innerHTML = db.cart.map((item, i) => {
+                        total += item.price;
+                        return `<div class="cart-item">
+                            <div style="display:flex;align-items:center;gap:10px;"><img src="${item.img}" style="width:50px;height:50px;object-fit:cover;border-radius:4px;"><strong>${item.name}</strong></div>
+                            <div><span>R$ ${item.price.toFixed(2).replace('.', ',')}</span><button onclick="app.removeFromCart(${i})" style="color:red;background:none;border:none;margin-left:10px;cursor:pointer;"><i class="fas fa-trash"></i></button></div>
+                        </div>`;
+                    }).join('');
+                }
+                document.getElementById('cart-total').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+                document.getElementById('final-total').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+            },
+            removeFromCart: function(i) {
+                db.cart.splice(i, 1);
+                document.getElementById('cart-badge').innerText = db.cart.length;
+                this.renderCart();
+            },
+            checkCheckout: function() {
+                if (db.cart.length === 0) return alert("Carrinho vazio!");
+                if (!db.user) {
+                    alert("Faça login.");
+                    return this.navTo('login');
+                }
+                this.navTo('checkout');
+            },
+            calcFreight: function() {
+                const val = document.getElementById('freight-state').value;
+                let cost = (val === 'SP') ? 0 : (val === 'RJ' ? 49.90 : 119.90);
+                document.getElementById('freight-value').innerText = `R$ ${cost.toFixed(2).replace('.', ',')}`;
+                let total = db.cart.reduce((a, b) => a + b.price, 0) + cost;
+                document.getElementById('final-total').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+            },
+            login: function() {
+                const email = document.getElementById('login-email').value;
+                if (!email) return alert("Digite um email");
+                db.user = email;
+                document.getElementById('user-area').innerHTML = `<span>Olá, <strong>${email.split('@')[0]}</strong></span>`;
+                alert("Logado!");
+                this.navTo('home');
+            },
+            finishOrder: function() {
+                alert("Pedido Confirmado! Obrigado.");
+                db.cart = [];
+                location.reload();
+            }
+        };
+        window.onload = () => app.init();
+    </script>
+</body>
+
+</html>
