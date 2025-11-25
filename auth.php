@@ -20,9 +20,8 @@ if ($acao == 'cadastro') {
     $nome = $data['nome'];
     $email = $data['email'];
     $cpf = $data['cpf'];
-    $senha = password_hash($data['senha'], PASSWORD_DEFAULT); // Criptografa a senha
+    $senha = password_hash($data['senha'], PASSWORD_DEFAULT); 
 
-    // Verifica se e-mail já existe
     $check = $conn->prepare("SELECT id FROM usuarios WHERE email = ?");
     $check->bind_param("s", $email);
     $check->execute();
@@ -62,4 +61,5 @@ else if ($acao == 'login') {
 }
 
 $conn->close();
+
 ?>
