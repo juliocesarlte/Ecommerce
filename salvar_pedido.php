@@ -16,7 +16,6 @@ if ($conn->connect_error) {
 $usuario_id = $data['usuario_id'];
 $total = $data['total'];
 
-// A data é inserida automaticamente pelo banco ou usamos NOW()
 $stmt = $conn->prepare("INSERT INTO pedidos (usuario_id, total, data_pedido) VALUES (?, ?, NOW())");
 $stmt->bind_param("id", $usuario_id, $total);
 
@@ -27,4 +26,5 @@ if ($stmt->execute()) {
 }
 
 $conn->close();
+
 ?>
