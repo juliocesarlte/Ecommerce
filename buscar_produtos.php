@@ -14,7 +14,6 @@ if ($conn->connect_error) {
     die(json_encode([]));
 }
 
-// AQUI ESTAVA O ERRO: Mudei 'imagem' para 'img' para bater com seu banco
 $sql = "SELECT id, nome, preco, img, descr FROM produtos";
 $result = $conn->query($sql);
 
@@ -25,4 +24,5 @@ while($row = $result->fetch_assoc()) {
 
 echo json_encode($produtos);
 $conn->close();
+
 ?>
